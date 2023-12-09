@@ -8,23 +8,30 @@ The `Option` type represents an optional value and includes various methods for 
 
 ### Usage Examples
 
-#### Creating Options
+#### Returning Options
 
 ```go
-someValue := Some(42)
-noneValue := None[int]()
+func maybe() gost.Option[int] {
+    if /* some condition here */ {
+        return gost.Some(10)
+    } 
+
+    return gost.None[int]()
+}
+
+val := maybe()
 ```
 
 #### Checking Option State
 
 ```go
-if someValue.IsSome() {
+if val.IsSome() {
     // Option has a value
 } else {
     // Option is empty
 }
 
-if noneValue.IsNone() {
+if val.IsNone() {
     // Option is empty
 } else {
     // Option has a value
@@ -34,17 +41,17 @@ if noneValue.IsNone() {
 #### Extracting Values 
 
 ```go
-value := someValue.Unwrap()
-valueOrDefault := noneValue.UnwrapOr(10)
-valueOrFunction := noneValue.UnwrapOrElse(func() int { return calculateDefaultValue() })
+value := val.Unwrap()
+valueOrDefault := val.UnwrapOr(10)
+valueOrFunction := val.UnwrapOrElse(func() int { return calculateDefaultValue() })
 ```
 
 #### Panic, Fatal, Exit
 
 ```go
-valueOrPanic := noneValue.UnwrapOrPanic("Value is required!")
-valueOrLogFatal := noneValue.UnwrapOrLogFatal("Fatal: Value is required!")
-valueOrExit := noneValue.UnwrapOrExit(1)
+valueOrPanic := val.UnwrapOrPanic("Value is required!")
+valueOrLogFatal := val.UnwrapOrLogFatal("Fatal: Value is required!")
+valueOrExit := val.UnwrapOrExit(1)
 ```
 
 ## Result Type
@@ -56,20 +63,28 @@ The `Result` type represents a value or an error and includes methods for handli
 #### Creating Results
 
 ```go
-okResult := Ok("Success")
-errorResult := Error[string](errors.New("Something went wrong"))
+func risky() gost.Result[int] {
+    v, err := /* some risky function call */
+    if err != nil {
+        return gost.Ok(v)
+    } 
+
+    return gost.Error[int](err)
+}
+
+val := risky()
 ```
 
 #### Checking Result State
 
 ```go
-if okResult.IsOk() {
+if val.IsOk() {
     // Result is successful
 } else {
     // Result is an error
 }
 
-if errorResult.IsError() {
+if val.IsError() {
     // Result is an error
 } else {
     // Result is successful
@@ -79,17 +94,17 @@ if errorResult.IsError() {
 #### Extracting Values And Errors 
 
 ```go
-value := okResult.Unwrap()
-err := errorResult.UnwrapError()
-valueOrDefault := errorResult.UnwrapOr("Default")
-valueOrFunction := errorResult.UnwrapOrElse(func() string { return calculateDefaultString() })
+value := val.Unwrap()
+err := val.UnwrapError()
+valueOrDefault := val.UnwrapOr("Default")
+valueOrFunction := val.UnwrapOrElse(func() string { return calculateDefaultString() })
 ```
 
 #### Panic, Fatal, and Exit
 
 ```go
-valueOrPanic := errorResult.UnwrapOrPanic()
-valueOrLogFatal := errorResult.UnwrapOrLogFatal()
-valueOrExit := errorResult.UnwrapOrExit(1)
-valueOrDynamicExit := errorResult.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
+valueOrPanic := val.UnwrapOrPanic()
+valueOrLogFatal := val.UnwrapOrLogFatal()
+valueOrExit := val.UnwrapOrExit(1)
+valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
 ```
