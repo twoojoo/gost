@@ -63,8 +63,7 @@ func (o Option[T]) UnwrapOrElse(def func() T) T {
 // Extracts the value from the Option. Returns the zero value of the wrapped type if the Option is None.
 func (o Option[T]) UnwrapOrZero() T {
 	if o.value == nil {
-		var zero T
-		return zero
+		return Zero[T]()
 	}
 
 	return *o.value
@@ -86,9 +85,7 @@ func (o Option[T]) UnwrapOrLogFatal(v ...any) T {
 	}
 
 	log.Fatal(v...)
-
-	var zero T
-	return zero
+	return Zero[T]()
 }
 
 // Extracts the value from the Option. Calls os.Exit(code) if the Option is None.
@@ -98,6 +95,5 @@ func (o Option[T]) UnwrapOrExit(code int) T {
 	}
 
 	os.Exit(code)
-	var zero T
-	return zero
+	return Zero[T]()
 }

@@ -73,8 +73,7 @@ func (o Result[T]) UnwrapOrElse(def func() T) T {
 // Extracts the value from the Result. Returns the zero value of the wrapped type if the Result is Error.
 func (o Result[T]) UnwrapOrZero() T {
 	if o.value == nil {
-		var zero T
-		return zero
+		return Zero[T]()
 	}
 
 	return *o.value
@@ -96,9 +95,7 @@ func (o Result[T]) UnwrapOrLogFatal() T {
 	}
 
 	log.Fatal(o.error)
-
-	var zero T
-	return zero
+	return Zero[T]()
 }
 
 // Extracts the value from the Result. Calls os.Exit(code) if the Result is Error.
@@ -108,8 +105,7 @@ func (o Result[T]) UnwrapOrExit(code int) T {
 	}
 
 	os.Exit(code)
-	var zero T
-	return zero
+	return Zero[T]()
 }
 
 // Extracts the value from the Result. Calls os.Exit([code]) if the Result is Error, getting the exit code from the provided function.
@@ -119,6 +115,5 @@ func (o Result[T]) UnwrapOrDynamicExit(code func(err error) int) T {
 	}
 
 	os.Exit(code(o.error))
-	var zero T
-	return zero
+	return Zero[T]()
 }
