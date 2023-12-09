@@ -28,7 +28,7 @@ val := maybe()
 slice := []int{1, 2, 3, 4, 5}
 target := 4
 
-opt := AsOption(slices.BinarySearch(slice, target))
+v := AsOption(slices.BinarySearch(slice, target))
 ```
 
 #### Checking Option State
@@ -36,32 +36,28 @@ opt := AsOption(slices.BinarySearch(slice, target))
 ```go
 if val.IsSome() {
     // Option has a value
-} else {
-    // Option is empty
 }
 
 if val.IsNone() {
     // Option is empty
-} else {
-    // Option has a value
 }
 ```
 
 #### Extracting Values 
 
 ```go
-value := val.Unwrap()
-valueOrDefault := val.UnwrapOr(10)
-valueOrFunction := val.UnwrapOrElse(func() int { return calculateDefaultValue() })
-valueOrZeroValue := val.UnwrapOrZero()
+v := val.Unwrap()
+v := val.UnwrapOr(10)
+v := val.UnwrapOrElse(func() int { return calculateDefaultValue() })
+v := val.UnwrapOrZero()
 ```
 
 #### Panic, Fatal, Exit
 
 ```go
-valueOrPanic := val.UnwrapOrPanic("Value is required!")
-valueOrLogFatal := val.UnwrapOrLogFatal("Fatal: Value is required!")
-valueOrExit := val.UnwrapOrExit(1)
+v := val.UnwrapOrPanic("Value is required!")
+v := val.UnwrapOrLogFatal("Fatal: Value is required!")
+v := val.UnwrapOrExit(1)
 ```
 
 ## Result Type
@@ -88,10 +84,7 @@ val := risky()
 #### Wrapping Existing Functions
 
 ```go
-slice := []int{1, 2, 3, 4, 5}
-target := 4
-
-res := AsResult(os.ReadFile("non-existent-file.txt"))
+val := AsResult(os.ReadFile("non-existent-file.txt"))
 ```
 
 
@@ -100,25 +93,21 @@ res := AsResult(os.ReadFile("non-existent-file.txt"))
 ```go
 if val.IsOk() {
     // Result is successful
-} else {
-    // Result is an error
 }
 
 if val.IsError() {
     // Result is an error
-} else {
-    // Result is successful
 }
 ```
 
 #### Extracting Values And Errors 
 
 ```go
-value := val.Unwrap()
+v := val.Unwrap()
 err := val.UnwrapError()
-valueOrDefault := val.UnwrapOr("Default")
-valueOrFunction := val.UnwrapOrElse(func() string { return calculateDefaultString() })
-valueOrZeroValue := val.UnwrapOrZero()
+v := val.UnwrapOr("Default")
+v := val.UnwrapOrElse(func() string { return calculateDefaultString() })
+v := val.UnwrapOrZero()
 ```
 
 #### Panic, Fatal, and Exit
