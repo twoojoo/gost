@@ -53,6 +53,7 @@ if val.IsNone() {
 value := val.Unwrap()
 valueOrDefault := val.UnwrapOr(10)
 valueOrFunction := val.UnwrapOrElse(func() int { return calculateDefaultValue() })
+valueOrZeroValue := val.UnwrapOrZero()
 ```
 
 #### Panic, Fatal, Exit
@@ -117,6 +118,7 @@ value := val.Unwrap()
 err := val.UnwrapError()
 valueOrDefault := val.UnwrapOr("Default")
 valueOrFunction := val.UnwrapOrElse(func() string { return calculateDefaultString() })
+valueOrZeroValue := val.UnwrapOrZero()
 ```
 
 #### Panic, Fatal, and Exit
