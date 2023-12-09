@@ -10,6 +10,14 @@ type Result[T any] struct {
 	error error
 }
 
+func AsResult[T any](v T, e error) Result[T] {
+	if e != nil {
+		return Result[T]{value: &v}
+	}
+
+	return Result[T]{error: e}
+}
+
 func Ok[T any](value T) Result[T] {
 	return Result[T]{value: &value}
 }

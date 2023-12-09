@@ -9,6 +9,14 @@ type Option[T any] struct {
 	value *T
 }
 
+func AsOption[T any](v T, ok bool) Option[T] {
+	if ok {
+		return Option[T]{value: &v}
+	}
+
+	return Option[T]{}
+}
+
 func Some[T any](value T) Option[T] {
 	return Option[T]{value: &value}
 }

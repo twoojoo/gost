@@ -1,6 +1,7 @@
 package gost
 
 import (
+	"slices"
 	"testing"
 )
 
@@ -28,6 +29,14 @@ func TestOption(t *testing.T) {
 	}
 
 	if val := opt.UnwrapOrZero(); val != "" {
+		t.Fatal(val)
+	}
+}
+
+func TestAsOption(t *testing.T) {
+	val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 4)).UnwrapOr(0)
+
+	if val != 3 {
 		t.Fatal(val)
 	}
 }

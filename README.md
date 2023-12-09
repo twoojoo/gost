@@ -22,6 +22,15 @@ func maybe() gost.Option[int] {
 val := maybe()
 ```
 
+#### Wrapping Existing Functions
+
+```go
+slice := []int{1, 2, 3, 4, 5}
+target := 4
+
+opt := AsOption(slices.BinarySearch(slice, target))
+```
+
 #### Checking Option State
 
 ```go
@@ -74,6 +83,16 @@ func risky() gost.Result[int] {
 
 val := risky()
 ```
+
+#### Wrapping Existing Functions
+
+```go
+slice := []int{1, 2, 3, 4, 5}
+target := 4
+
+res := AsResult(os.ReadFile("non-existent-file.txt"))
+```
+
 
 #### Checking Result State
 

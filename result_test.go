@@ -2,6 +2,7 @@ package gost
 
 import (
 	"errors"
+	"os"
 	"testing"
 )
 
@@ -33,6 +34,14 @@ func TestResult(t *testing.T) {
 	}
 
 	if val := err.UnwrapOrZero(); val != "" {
+		t.Fatal(val)
+	}
+}
+
+func TestAsResult(t *testing.T) {
+	val := AsResult(os.ReadFile("non-existent-file.txt")).UnwrapOr([]byte{})
+
+	if len(val) != 0 {
 		t.Fatal(val)
 	}
 }
