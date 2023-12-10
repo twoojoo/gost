@@ -121,7 +121,7 @@ valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calcu
 
 ### Pattern Matching
 
-You can also handle `Result` and `Options` using a sort of pattern matching syntax (that is limited due to the lack of generics on golang struct methods):
+You can also handle `Result` and `Options` using a sort of pattern matching syntax:
 
 ```go
 val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 4)).
@@ -132,3 +132,5 @@ val := AsResult(os.ReadFile("non-existent-file.txt")).
         OnOk(func(v *[]byte) *[]byte { return v }).
         OnError(func(e error) []byte { return []byte{} })
 ```
+
+This is syntax is very limited in his extensibility due to the lack of generics on golang struct methods, thus it only comes handy when you need some side effects while extracting the option or result inner value.
