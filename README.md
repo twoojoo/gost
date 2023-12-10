@@ -124,7 +124,7 @@ valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calcu
 You can also handle `Result` and `Options` using a sort of pattern matching syntax:
 
 ```go
-val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 4)).
+val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 10)).
         OnSome(func(v *int) *int { return v }).
         OnNone(func() int { return -1 })
 
