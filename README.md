@@ -134,3 +134,22 @@ val := AsResult(os.ReadFile("non-existent-file.txt")).
 ```
 
 This is syntax is very limited in his extensibility due to the lack of generics on golang struct methods, thus it only comes handy when you need some side effects while extracting the option or result inner value.
+
+```go
+func respondSuccess<T any>(w http.ResponseWriter, value T) T {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(v)
+}
+
+func respondNotFound<T any>(w http.ResponseWriter) T {
+    w.WriteHeader(http.StatusNotFound)
+    W.Write("")
+}
+
+func userHandler(w http.ResponseWriter, req *http.Request) {
+    AsOption(db.FetchUser(4)).
+        OnSome(func(v *int) *int { respondSuccess(w, v) }).
+        OnNone(func() int { respondNotFound(w) })
+}
+```
