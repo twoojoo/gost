@@ -34,6 +34,14 @@ func (o Result[T]) IsOk() bool {
 	return o.value != nil
 }
 
+func (o Result[T]) OnOk(cb func(v *T) *T) ResultMatcher[T] {
+	return ResultMatcher[T]{
+		onOk:  cb,
+		value: o.value,
+		error: o.error,
+	}
+}
+
 // Extracts the value from the Result. Panics if the Result is Error.
 func (o Result[T]) Unwrap() T {
 	if o.value == nil {
@@ -79,7 +87,7 @@ func (o Result[T]) UnwrapOrZero() T {
 	return *o.value
 }
 
-// Extracts the value from the Result. Panics with the provided argument if the Result is Error.
+// Extracts the value from the Result. Panics with the wrapped error as argument if the Result is Error.
 func (o Result[T]) UnwrapOrPanic() T {
 	if o.value != nil {
 		return *o.value

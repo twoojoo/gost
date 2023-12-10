@@ -33,6 +33,13 @@ func (o Option[T]) IsNone() bool {
 	return o.value == nil
 }
 
+func (o Option[T]) OnSome(cb func(v *T) *T) OptionMatcher[T] {
+	return OptionMatcher[T]{
+		value:  o.value,
+		onSome: cb,
+	}
+}
+
 // Extracts the value from the Option. Panics if the Option is None.
 func (o Option[T]) Unwrap() T {
 	if o.value == nil {

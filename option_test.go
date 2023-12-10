@@ -40,3 +40,13 @@ func TestAsOption(t *testing.T) {
 		t.Fatal(val)
 	}
 }
+
+func TestOptionMatching(t *testing.T) {
+	val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 4)).
+		OnSome(func(v *int) *int { return v }).
+		OnNone(func() int { return 0 })
+
+	if val != 3 {
+		t.Fatal(val)
+	}
+}

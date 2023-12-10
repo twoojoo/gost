@@ -118,3 +118,17 @@ valueOrLogFatal := val.UnwrapOrLogFatal()
 valueOrExit := val.UnwrapOrExit(1)
 valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
 ```
+
+### Pattern Matching
+
+You can also handle `Result` and `Options` using a sort of pattern matching syntax (that is limited due to the lack of generics on golang struct methods):
+
+```go
+val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 4)).
+        OnSome(func(v *int) *int { return v }).
+        OnNone(func() int { return -1 })
+
+val := AsResult(os.ReadFile("non-existent-file.txt")).
+        OnOk(func(v *[]byte) *[]byte { return v }).
+        OnError(func(e error) []byte { return []byte{} })
+```

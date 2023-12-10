@@ -45,3 +45,13 @@ func TestAsResult(t *testing.T) {
 		t.Fatal(val)
 	}
 }
+
+func TestResultMatching(t *testing.T) {
+	val := AsResult(os.ReadFile("non-existent-file.txt")).
+		OnOk(func(v *[]byte) *[]byte { return v }).
+		OnError(func(e error) []byte { return []byte{} })
+
+	if len(val) != 0 {
+		t.Fatal(val)
+	}
+}
