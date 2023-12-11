@@ -28,7 +28,7 @@ val := maybe()
 slice := []int{1, 2, 3, 4, 5}
 target := 4
 
-v := AsOption(slices.BinarySearch(slice, target))
+v := gost.AsOption(slices.BinarySearch(slice, target))
 ```
 
 #### Checking Option State
@@ -84,7 +84,7 @@ val := risky()
 #### Wrapping Existing Functions
 
 ```go
-val := AsResult(os.ReadFile("non-existent-file.txt"))
+val := gost.AsResult(os.ReadFile("non-existent-file.txt"))
 ```
 
 
@@ -124,11 +124,11 @@ v := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err)
 You can also handle `Result` and `Options` using a sort of pattern matching syntax:
 
 ```go
-val := AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 10)).
+val := gost.AsOption(slices.BinarySearch([]int{1, 2, 3, 4, 5}, 10)).
         OnSome(func(v *int) *int { return v }).
         OnNone(func() int { return -1 })
 
-val := AsResult(os.ReadFile("non-existent-file.txt")).
+val := gost.AsResult(os.ReadFile("non-existent-file.txt")).
         OnOk(func(v *[]byte) *[]byte { return v }).
         OnError(func(e error) []byte { return []byte{} })
 ```
@@ -150,7 +150,7 @@ func respondNotFound[T any](w http.ResponseWriter, v T) T {
 }
 
 func userHandler(w http.ResponseWriter, req *http.Request) {
-    AsOption(db.FetchUser(4)).
+    gost.AsOption(db.FetchUser(4)).
         OnSome(func(v *int) *int { return respondSuccess(w, v) }).
         OnNone(func() int { return respondNotFound(w, v) })
 }
