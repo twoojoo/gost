@@ -119,7 +119,7 @@ valueOrExit := val.UnwrapOrExit(1)
 valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
 ```
 
-### Pattern Matching
+### "Pattern Matching"
 
 You can also handle `Result` and `Options` using a sort of pattern matching syntax:
 
@@ -140,6 +140,7 @@ func respondSuccess[T any](w http.ResponseWriter, v T) {
     w.Header().Set("Content-Type", "application/json")
     w.WriteHeader(http.StatusOK)
     json.NewEncoder(w).Encode(v)
+    return v
 }
 
 func respondNotFound[T any](w http.ResponseWriter, v T) T {
