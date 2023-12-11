@@ -113,10 +113,10 @@ v := val.UnwrapOrZero()
 #### Panic, Fatal, and Exit
 
 ```go
-valueOrPanic := val.UnwrapOrPanic()
-valueOrLogFatal := val.UnwrapOrLogFatal()
-valueOrExit := val.UnwrapOrExit(1)
-valueOrDynamicExit := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
+v := val.UnwrapOrPanic()
+v := val.UnwrapOrLogFatal()
+v := val.UnwrapOrExit(1)
+v := val.UnwrapOrDynamicExit(func(err error) int { return calculateExitCode(err) })
 ```
 
 ### "Pattern Matching"
